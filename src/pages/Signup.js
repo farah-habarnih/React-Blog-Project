@@ -1,106 +1,66 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import './Signup.css'
+import './Signup.css';
 
-class Signup extends React.Component {
-    constructor(props){
-        super(props);
-        
-        this.adminUser = {
+import { Link } from 'react-router-dom';
 
-            'userEmail': 'Farah@yahoo.com',
-            'password': '1159357',
-            "role": 'admin'
-        }
-        localStorage.setItem('Farah', JSON.stringify(this.adminUser))
+class Signup extends React.Component{
+    constructor(){
+        super();
         this.state={
-        userName:"",
-        userEmail:"",
-        password:"",
-        role:"user"
+        Signup:0,
+        Email:'',
+        password:'',
+        UserName:'',
         }
     }
-    
-    registerCheck = (e) => {
-        const {name,value} = e.target;
-        this.setState({[name]:value})
-    }
 
-    
+handleChange =(e,attr)=>{
+this.setState({[attr]:e.target.value,
+        })   
+    }  
 
-    submit = (e) => {
-        e.preventDefault()
 
-        let myObj = {
-            'userEmail': this.state.userEmail,
-            'password': this.state.password,
-            "role": this.state.role
+    handleSubmit =(e)=>{
+       e.preventDefault();
+        if(this.state.password.length >=8){
+        let user={
+            name:e.target.UserName.value,
+            Email: e.target.Email.value,
+            Password:e.target.password.value,
+            Signup:1,
         }
-        for(let user in localStorage){
-            
-            e.preventDefault()
-
-            if(user === this.state.userName)
-            {
-                alert("user already registered")
-                e.preventDefault()
-                return false;
-            }
-            else if(this.state.userName ===""){
-                return false;
-            }
-        }
-        localStorage.setItem(`${this.state.userName}`,JSON.stringify(myObj));
-        alert("You have registered")
-        e.preventDefault()
-     }
-
+        this.setState({
+            Signup:1,
+        })
+        localStorage.setItem((this.state.Email),JSON.stringify(user));  
+    }e.target.reset();   
+}
     render(){
-        return (
+
+        return(
             <div>
             <Navbar/>
-            <main className="main-cont">
-                <div className="container">
-                    <div className="header">
-                        <h2>Create Account</h2>
-                    </div>
-                    <form id="form" className="form">
-                        <div className="form-control">
-                            <label htmlFor="username">Username</label>
-                            <input type="text" id="username" name="userName" value={this.state.userName} onChange={this.registerCheck}/>
-                            <i className="fas fa-check-circle"></i>
-                            <i className="fas fa-exclamation-circle"></i>
-                            <small>Error message</small>
-                        </div>
-                        <div className="form-control">
-                            <label htmlFor="username">Email</label>
-                            <input type="text" id="email" name="userEmail" value={this.state.userEmail} onChange={this.registerCheck} />
-                            <i className="fas fa-check-circle"></i>
-                            <i className="fas fa-exclamation-circle"></i>
-                            <small>Error message</small>
-                        </div>
-                        <div className="form-control">
-                            <label htmlFor="password">Password</label>
-                            <input type="password" id="password" name="password" value={this.state.password} onChange={this.registerCheck} />
-                            <i className="fas fa-check-circle"></i>
-                            <i className="fas fa-exclamation-circle"></i>
-                            <small>Error message</small>
-                        </div>
-                        <div className="form-control">
-                            <label htmlFor="passwordcheck">Repeat Password</label>
-                            <input type="password" id="password2" />
-                            <i className="fas fa-check-circle"></i>
-                            <i className="fas fa-exclamation-circle"></i>
-                            <small>Error message</small>
-                        </div>
-                        <button className="sub-btn" onClick={this.submit}>Submit</button>
-                    </form>
-                </div>
-            </main>
+            <div className="formSignup">
+        <h1 className="SignupTitle">Sign Up </h1>
+        <form onSubmit={this.handleSubmit}>
+        <label>Username</label>
+        <input type="name" placeholder="Enter your Username.." name="UserName"  onChange={(e)=>{this.handleChange(e,"UserName")}}/>
+
+        <label>Email</label>
+        <input type="email" placeholder="Enter your Email.." name="Email" onChange={(e)=>{this.handleChange(e,"Email")}}/>
+
+        <label>Password</label>
+        <input type="password" placeholder="Enter your Password.." name="password" onChange={(e)=>{this.handleChange(e,"password")}}/>
+        {this.state.password.length<8 ?<p style={{color:'#F34F83'}}>Password should be at least 8 characters</p>:""}<br/>
+
+        <button type="submit">Signup</button>
+         </form>
+         {this.state.Signup==1?<button style={{backgroundColor:'#F34F83',position:'absolute',top:'700px',left:'700px',width:'120px',height:'50px',border:'none',fontSize:'1.5rem',}}><Link to="./Login">Login</Link></button>:""}<br/>
+            </div>
             </div>
         )
     }
 }
-
 
 export default Signup;

@@ -10,9 +10,13 @@ grid-template-columns: repeat(3,1fr);
     align-items: center;
     justify-content: center;
     border:2px solid blueviolet;
+    border-radius: 0.5rem;
     
 }
-
+.card:hover{
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transform: ease-in 2s;
+}
 .card >img{
     width: 22rem;
     height: 22rem;
@@ -26,6 +30,7 @@ grid-template-columns: repeat(3,1fr);
 }
 .card button {
     border: none;
+    border-radius: 0.5rem;
     outline: 0;
     padding: 12px;
     color: white;
